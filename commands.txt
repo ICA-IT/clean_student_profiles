@@ -1,0 +1,6 @@
+list all members of ICA students:
+dsget group "CN=ICA students,OU=students,OU=ICA users,DC=campus,DC=islandchristianacademy,DC=com" -members > StudentGroup.txt
+find SID for student10:
+dsquery * "CN=ICA student10,OU=students,OU=ICA users,DC=campus,DC=islandchristianacademy,DC=com" -scope base -attr objectSid > student10SID.txt
+remove student3:
+Get-CimInstance -Class Win32_UserProfile | Where-Object { $_.SID -eq 'S-1-5-21-1592232403-4207102696-3859199435-1113' }  | Remove-CimInstance
