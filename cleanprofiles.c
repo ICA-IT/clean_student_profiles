@@ -21,7 +21,9 @@
  *		(CleanStudentProfiles.ps1). Run this powershell script on each domain computer that you
  *		wish to clean. (Be patient, it might take a while to finish cleaning; it depends on the
  *		number of profiles on the machine, number of files to be deleted, and the fragmentation
- *		of the registry file.)
+ *		of the registry file. If you don't want to wait around, you can try the following:
+ *		powershell -noexit "& ""C:\users\dad\desktop\CleanStudentProfiles.ps1"""
+ *		)
  *
  *      Note: don't forget to run
  *      set-executionpolicy remotesigned
