@@ -19,7 +19,7 @@
  *		Copy the SIDs file created by the GetSutdentSIDs.ps1 script back to wherever you are
  *		running this program and re-run it. The second run will produce the final output file
  *		(CleanStudentProfiles.ps1). Run this powershell script on each domain computer that you
- *		wish to clean.
+ *		wish to clean. (Be patient, it might take a while to finish cleaning)
  *
  *      Note: don't forget to run
  *      set-executionpolicy remotesigned
