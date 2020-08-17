@@ -6,7 +6,8 @@
  *
  *		Note: be alert if inputing a Windows file into this program.
  *		The program expects an 8-bit ascii input file. Windows may produce
- *		wide format (16 bit) characters
+ *		wide format (16 bit) characters. I recomemnd running dos2unix on all input files.
+ *		You should also delete aby blank lines at the end of the files.
  *
  *		To create the initial input file (StudentGroup.txt), run the following
  *		command on a windows domain member in an elevated cmd window:
