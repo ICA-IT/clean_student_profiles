@@ -40,6 +40,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef WINDOZE
+#define ssize_t int
+ssize_t getline(char** lineptr, size_t* n, FILE* stream)
+{
+	if ( fgets(*lineptr, (int)n, stream) == NULL ) return(-1);
+	return strlen( *lineptr);
+}
+#endif
+
 void trimleadingandTrailing(char *s);
 
 int main ()
