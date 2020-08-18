@@ -107,4 +107,5 @@ vc60.*
 *.ipch
 *.tlog
 *.lastbuildstate
-
+*.iobj
+*.ipdb
