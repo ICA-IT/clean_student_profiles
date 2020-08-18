@@ -102,4 +102,9 @@ vc60.*
 *.lst
 /.vs/
 .settings/
+*.suo
+*.db
+*.ipch
+*.tlog
+*.lastbuildstate
 
