@@ -30,6 +30,9 @@
  *      set-executionpolicy remotesigned
  *      in powershell before attempting to run the output script!
  *
+ *      Note: For help depolying the cleaning script using opsi, see:
+ *      git@github.com:ICA-IT/ica-clean-profiles.git
+ *
  */
 
 //#define _GNU_SOURCE
