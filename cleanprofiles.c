@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
 			//	        printf("Retrieved line of length %zu:\n", read);
 			line[read - 1] = '\000';
 			printf(" line found : \"%s\"\n", line);
-			fprintf(fp2, "dsquery * %s -scope base -attr objectSid %s studentSIDs.txt\n", line, redir);
+			if ( strlen(line) > 2 ) fprintf(fp2, "dsquery * %s -scope base -attr objectSid %s studentSIDs.txt\n", line, redir);
 			redir = redir2;
 		}
 		fclose(fp);
@@ -131,7 +131,8 @@ int main(int argc, char* argv[])
 			line[read - 1] = '\000';
 			trimleadingandTrailing(line);
 			printf(" line found : \"%s\"\n", line);
-			fprintf(fp2, "Get-CimInstance -Class Win32_UserProfile | Where-Object { $_.SID -eq \'%s\' }  | Remove-CimInstance\n", line);
+			if (strlen(line) > 20) 
+				fprintf(fp2, "Get-CimInstance -Class Win32_UserProfile | Where-Object { $_.SID -eq \'%s\' }  | Remove-CimInstance\n", line);
 		}
 
 		fclose(fp);
