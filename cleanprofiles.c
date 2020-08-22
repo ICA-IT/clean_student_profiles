@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
 		second = 1;
 	}
 
-	if (first == 0 & second == 0) {
+	if ( (first == 0) & (second == 0) ) {
 		printf("\nProgram to generate Windows domain profile cleaning script:\n");
 		printf("Calling parameters:\n");
 		printf("cleanprofiles [first|second|both]\n\n");
