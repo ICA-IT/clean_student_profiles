@@ -109,3 +109,7 @@ vc60.*
 *.lastbuildstate
 *.iobj
 *.ipdb
+
+
+*~
+/clean_profiles/
