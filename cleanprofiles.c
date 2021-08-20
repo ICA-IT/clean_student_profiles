@@ -39,16 +39,38 @@
  */
 
 //#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+
 #ifdef WINDOZE
+#define WIDECHAR	// set WIDECHAR for the Windows version only!
+                    // Note that the test files included in git are NOT wide!
+#ifdef WIDECHAR
+#include <wchar.h>
+#endif
 #define ssize_t int
 ssize_t getline(char** lineptr, size_t* n, FILE* stream)
 {
 	if ( fgets(*lineptr, (int)n, stream) == NULL ) return(-1);
 	return strlen( *lineptr);
+}
+ssize_t getlinew(char** lineptr, size_t* n, FILE* stream)
+{
+	wchar_t *linew;
+	char* line;
+	linew = (wchar_t*)malloc((*n) * 2);
+	line = *lineptr;
+	if (fgetws(linew, (int)n, stream) == NULL) return(-1);
+	for (int i = 0; i < (int)wcslen(linew); ++i) {
+		*line = wctob(linew[i]);
+		line++;
+	}
+	free(linew);
+	*line = '\000';
+	return strlen(*lineptr);
 }
 #endif
 
@@ -115,19 +137,32 @@ int main(int argc, char* argv[])
 	}
 
 	if (second) {
+#ifdef WIDECHAR
+		fp = fopen("studentSIDs.txt", "r,ccs=UTF-16LE");
+#else
 		fp = fopen("studentSIDs.txt", "r");
+#endif
 		if (fp == NULL)return(3);
 
 		fp2 = fopen("CleanStudentProfiles.ps1", "w");
 		if (fp2 == NULL)return(4);
 
+#ifdef WIDECHAR
+		while ((read = getlinew(&line, &len, fp)) != -1) {
+#else
 		while ((read = getline(&line, &len, fp)) != -1) {
+#endif
 			//	        printf("Retrieved line of length %zu:\n", read);
+			if (read < 7) continue;	// skip any BOM
 			line[read - 1] = '\000';
 			trimleadingandTrailing(line);
 			printf(" line found : \"%s\"\n", line);
 			if (strcmp(line, "objectSid") != 0) return(5);
+#ifdef WIDECHAR
+			if ((read = getlinew(&line, &len, fp)) == -1) return (6);
+#else
 			if ((read = getline(&line, &len, fp)) == -1) return (6);
+#endif
 			line[read - 1] = '\000';
 			trimleadingandTrailing(line);
 			printf(" line found : \"%s\"\n", line);
