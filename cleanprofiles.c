@@ -46,11 +46,34 @@
 
 
 #ifdef WINDOZE
+#include <windows.h>
+#include <winbase.h>
+#ifdef CHECKWIDE
+// Function to heuristically check if a string is likely wide (UTF-16)
+BOOL IsLikelyWide(const char* str, int len) {
+	// Check for UTF-16 byte order mark (BOM)
+	if (len >= 2 && str[0] == (char)0xFF && str[1] == (char)0xFE) {
+		return TRUE;
+	}
+	// Check if the string contains a null byte before the end
+	// This is a common indicator of UTF-16, where characters can be 2 bytes
+	for (int i = 0; i < len - 1; ++i) {
+		if (str[i] == '\0') {
+			return TRUE;
+		}
+	}
+	// As a fallback, use the Windows API function IsTextUnicode for more sophisticated checks
+	// This function can check for BOMs and other indicators, and uses heuristics
+	int result = IsTextUnicode(str, len, NULL);
+//	return (result & IS_TEXT_UNICODE_STATISTICS) || (result & IS_TEXT_UNICODE_BOM);
+	return (result & IS_TEXT_UNICODE_STATISTICS);
+}
+#endif	// CHECKWIDE
 #define WIDECHAR	// set WIDECHAR for the Windows version only!
                     // Note that the test files included in git are NOT wide!
 #ifdef WIDECHAR
 #include <wchar.h>
-#endif
+#endif // WIDECHAR
 #define ssize_t int
 ssize_t getline(char** lineptr, size_t* n, FILE* stream)
 {
@@ -64,6 +87,14 @@ ssize_t getlinew(char** lineptr, size_t* n, FILE* stream)
 	linew = (wchar_t*)malloc((*n) * 2);
 	line = *lineptr;
 	if (fgetws(linew, (int)n, stream) == NULL) return(-1);
+#ifdef CHECKWIDE
+	if (IsLikelyWide(linew, strlen(linew))) {
+		printf("The string '%s' is likely wide (UTF-16).\n", linew);
+	}
+	else {
+		printf("The string '%s' is likely ANSI.\n", linew);
+	}
+#endif// CHECKWIDE
 	for (int i = 0; i < (int)wcslen(linew); ++i) {
 		*line = wctob(linew[i]);
 		line++;
@@ -72,7 +103,7 @@ ssize_t getlinew(char** lineptr, size_t* n, FILE* stream)
 	*line = '\000';
 	return strlen(*lineptr);
 }
-#endif
+#endif // WINDOZE
 
 void trimleadingandTrailing(char *s);
 
