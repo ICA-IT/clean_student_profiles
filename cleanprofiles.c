@@ -132,10 +132,6 @@ int main(int argc, char* argv[])
 		if ((strcmp(argv[1], "both") == 0) | (strcmp(argv[1], "first") == 0)) first = 1;
 		if ((strcmp(argv[1], "both") == 0) | (strcmp(argv[1], "second") == 0)) second = 1;
 	}
-	else {
-		first = 1;
-		second = 1;
-	}
 
 	if ( (first == 0) & (second == 0) ) {
 		printf("\nProgram to generate Windows domain profile cleaning script:\n");
