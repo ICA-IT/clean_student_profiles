@@ -69,8 +69,10 @@ BOOL IsLikelyWide(const char* str, int len) {
 	return (result & IS_TEXT_UNICODE_STATISTICS);
 }
 #endif	// CHECKWIDE
-#define WIDECHAR	// set WIDECHAR for the Windows version only!
-                    // Note that the test files included in git are NOT wide!
+// set WIDECHAR for the Windows version only!
+// Note that the test files included in git are NOT wide!
+// Also note that the opsi script now produces ASCII input for phase 2. I.e., the WIDECHAR
+// feature should no longer pe required.
 #ifdef WIDECHAR
 #include <wchar.h>
 #endif // WIDECHAR
@@ -80,6 +82,7 @@ ssize_t getline(char** lineptr, size_t* n, FILE* stream)
 	if ( fgets(*lineptr, (int)n, stream) == NULL ) return(-1);
 	return strlen( *lineptr);
 }
+#ifdef WIDECHAR
 ssize_t getlinew(char** lineptr, size_t* n, FILE* stream)
 {
 	wchar_t *linew;
@@ -103,6 +106,7 @@ ssize_t getlinew(char** lineptr, size_t* n, FILE* stream)
 	*line = '\000';
 	return strlen(*lineptr);
 }
+#endif	// WIDECHAR
 #endif // WINDOZE
 
 void trimleadingandTrailing(char *s);
