@@ -44,6 +44,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAJORVERSION	1
+#define MINORVERSION	1
+#define RELEASE			0
 
 #ifdef WINDOZE
 #include <windows.h>
@@ -136,6 +139,7 @@ int main(int argc, char* argv[])
 
 	if ( (first == 0) & (second == 0) ) {
 		printf("\nProgram to generate Windows domain profile cleaning script:\n");
+		printf("Version %i.%i.%i\n", MAJORVERSION, MINORVERSION, RELEASE);
 		printf("Calling parameters:\n");
 		printf("cleanprofiles [first|second|both]\n\n");
 		printf("The program processes in two stages. The first produces a script to list SIDs.\n");
